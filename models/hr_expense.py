@@ -17,6 +17,12 @@ class HrExpense(models.Model):
     _order = "date desc, id desc"
     _check_company_auto = True
 
+    analytic_account_id = fields.Many2one(
+        'account.analytic.account',
+        string="Analytic Account",
+        help="Select the related analytic account for this expense"
+    )
+
     @api.model
     def _default_employee_id(self):
         employee = self.env.user.employee_id

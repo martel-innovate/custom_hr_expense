@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
         <record id="hr_employee_view_form_inherit_expense" model="ir.ui.view">
             <field name="name">hr.employee.view.form.expense</field>
             <field name="model">hr.employee</field>
@@ -45,6 +44,7 @@
             <field name="model">hr.expense</field>
             <field name="arch" type="xml">
                 <tree string="Expenses" multi_edit="1" sample="1" js_class="hr_expense_tree" decoration-info="state == 'draft'">
+                   <!-- <field name="filter_icon" widget="filter_button" string="⚙️"/>-->
                     <field name="company_id" invisible="1"/>
                     <field name="company_currency_id" invisible="1"/>
                     <field name="attachment_number" invisible="True"/>
@@ -57,6 +57,7 @@
                     <field name="activity_ids" widget="list_activity" optional="show"/>
                     <field name="accounting_date" optional="hide" groups="account.group_account_invoice,account.group_account_readonly" readonly="0"/>
                     <field name="reference" optional="hide" groups="account.group_account_readonly"/>
+                   <field name="analytic_account_name"/>
                     <field name="analytic_distribution" widget="analytic_distribution"
                            optional="show"
                            groups="analytic.group_analytic_accounting"
@@ -627,6 +628,7 @@
                 <tree string="Expense Reports" multi_edit="1" js_class="hr_expense_tree" sample="1" decoration-info="state == 'draft'">
                     <field name="company_id" invisible="1"/>
                     <field name="product_ids" invisible="1"/>
+                    <field name="id" string="Report ID" optional="show"/>
                     <field name="employee_id" widget="many2one_avatar_employee"/>
                     <field name="accounting_date" optional="hide" groups="account.group_account_manager"/>
                     <field name="create_date" optional="hide"/>

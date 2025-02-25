@@ -88,3 +88,32 @@ registry.category('views').add('hr_expense_dashboard_tree', {
     Controller: ExpenseListController,
     Renderer: ExpenseDashboardListRenderer,
 });
+
+//* Added custom */
+patch(ExpenseDashboardListRenderer.prototype, 'fix_dropdown_position', {
+    mounted() {
+        this._super.apply(this, arguments);
+        console.log("🛠️ Fixing ExpenseDashboardListRenderer Dropdown Position...");
+
+        document.addEventListener("click", function(event) {
+            let filterButton = document.querySelector('.o_list_buttons .o_dropdown_toggle');
+
+            if (filterButton && event.target === filterButton) {
+                setTimeout(() => {
+                    document.querySelectorAll('.o-dropdown--menu.dropdown-menu.d-block').forEach(menu => {
+                        let buttonRect = filterButton.getBoundingClientRect();
+
+                        console.log("📌 Forcing dropdown to move...");
+
+                        menu.style.setProperty('position', 'absolute', 'important');
+                        menu.style.setProperty('top', (buttonRect.bottom + 5) + 'px', 'important');
+                        menu.style.setProperty('left', (buttonRect.left - 200) + 'px', 'important'); 
+                        menu.style.setProperty('min-width', '250px', 'important');
+                        menu.style.setProperty('z-index', '1051', 'important');
+                        menu.style.setProperty('display', 'block', 'important');
+                    });
+                }, 100);
+            }
+        });
+    }
+});

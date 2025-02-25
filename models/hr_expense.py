@@ -23,6 +23,20 @@ class HrExpense(models.Model):
         help="Select the related analytic account for this expense"
     )
 
+    analytic_account_name = fields.Char(
+        string="Analytic Account Name",
+        compute="_compute_analytic_account_name",
+        store=True
+    )
+
+    @api.depends("analytic_distribution")
+    def _compute_analytic_account_name(self):
+        for record in self:
+            if record.analytic_distribution:
+                analytic_id = list(record.analytic_distribution.keys())[0]  # Get the first key (analytic account ID)
+                analytic = self.env["account.analytic.account"].browse(int(analytic_id))
+                record.analytic_account_name = analytic.name if analytic else ""
+
     @api.model
     def _default_employee_id(self):
         employee = self.env.user.employee_id
